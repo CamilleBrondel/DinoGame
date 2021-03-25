@@ -1,9 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class BasicAgentAi : MonoBehaviour
 {
+    [SerializeField] private Camera _cam;
+    [SerializeField] private NavMeshAgent _agent;
+
     [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private float _rotSpeed = 3f;
 
@@ -21,6 +23,15 @@ public class BasicAgentAi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if(Physics.Raycast(ray, out hit))
+            {
+                _agent.SetDestination(hit.point);
+            }
+        }
     }
 }
